@@ -3,7 +3,7 @@
 	<ul class="list-group">
 		<c:forEach var="item" items="${ discussions }">
 			<li class="list-group-item">
-				<a href="/TP_Groupe1_/Message?idDiscussion=<c:out value='${ item.id }' />">
+				<a href="/TP_Groupe1/Message?idDiscussion=<c:out value='${ item.id }' />">
 				<c:out value="${ item.titre }" />
 				</a> 
 				par <c:out value="${ item.auteur.nom }" />

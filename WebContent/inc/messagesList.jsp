@@ -6,8 +6,7 @@
 				<div class="col-2 auteur card">
 				<h4>Auteur</h4>
 					<p> 
-						<c:out value="${ item.auteur.prenom }"/>
-						<c:out value="${ item.auteur.nom }" />
+						<c:out value="${ item.auteur.login }"/>
 					</p> 
 					<p>posté le 
 					<c:out value="${ item.date }" /></p>

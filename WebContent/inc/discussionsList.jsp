@@ -6,7 +6,7 @@
 				<a href="<c:url value="/Message?idDiscussion=${ item.id }" />">
 				<c:out value="${ item.titre }" />
 				</a> 
-				par <c:out value="${ item.auteur.nom }" />
+				par <c:out value="${ item.auteur.login }" />
 				le <c:out value="${ item.dateCreation }" />
 				- <c:out value="${ fn:length(discussions) }" /> messages
 			<c:if test="${ item.statut != 'true' }"> 

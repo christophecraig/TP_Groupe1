@@ -88,7 +88,7 @@ public class Dal {
 				messages.add(new beans.Message(result.getInt("id"), result.getString("texte"),
 						formatter.parseDateTime(result.getString("date")),
 						getUtilisateur(result.getInt("idUtilisateur")), result.getInt("idSujet"),
-						getDiscussion(idDiscussion).getTitre()));
+						result.getInt("idDiscussion"), getDiscussion(idDiscussion).getTitre()));
 			}
 			return messages;
 		} catch (SQLException e) {
@@ -140,8 +140,8 @@ public class Dal {
 			con = seConnecter();
 		}
 		try {
-			PreparedStatement psP = con.prepareStatement("insert into bddforum.message ('texte', 'date', 'idUtilisateur', 'idDiscussion') "
-					+ "values (" + texte + ", " + date + ", " + auteur.id + ", " + idDiscussion + ")");
+			PreparedStatement psP = con.prepareStatement("insert into bddforum.message ('texte', 'date', 'idDiscussion') "
+					+ "values (" + texte + ", " + date + ", " + idDiscussion + ")");
 			psP.executeUpdate();
 			return getMessage(idDiscussion);
 		} catch (SQLException e) {
@@ -149,13 +149,13 @@ public class Dal {
 		}
 	}
 	
-	public static Utilisateur addUtilisateur(String login, String mail, String nom, String prenom) {
+	public static Utilisateur addUtilisateur(String login, String mail) {
 		if (con == null) {
 			con = seConnecter();
 		}
 		try {
-			PreparedStatement psP = con.prepareStatement("insert into bddforum.message ('login', 'nom', 'prenom', 'mail') "
-					+ "values (" + login + ", " + nom + ", " + prenom + ", " + mail + ")", Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement psP = con.prepareStatement("insert into bddforum.message ('login', 'mail') "
+					+ "values (" + login + ", " + mail + ")", Statement.RETURN_GENERATED_KEYS);
 			Integer id = psP.getGeneratedKeys().getInt(1);
 
 			return getUtilisateur(id);

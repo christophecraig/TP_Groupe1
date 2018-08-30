@@ -3,7 +3,7 @@
 		<c:forEach var="item" items="${ messages }">
 			<li class="list-group-item">
 			<div class="row">
-				<div class="col-2 auteur card">
+				<div class="col-2 auteur card align-items-center">
 					<h4>Auteur</h4>
 					<p> 
 						<c:out value="${ item.auteur.login }"/>

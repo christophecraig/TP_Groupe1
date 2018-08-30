@@ -6,28 +6,28 @@
 	<c:import url="/inc/messagesList.jsp" />
 	<c:if test="${statut==true}">
 		<br>
-		<form method="post" action="<c:url value = "/NewMessage"/>">
-			<div class="card border-primary">
-				<div class="card-header text-white bg-primary mb-3">Ajouter un nouveau message</div>
-		  		<div class="card-body">
-		  			<div class="row">
-		  				<label for="message">Message :</label>
-						<textarea class="form-control" rows="5" id="message" name="message"></textarea>			
-					</div>
-					<div class="row">
-						<label for="login">Login :</label>
-						<input type="email" class="form-control" id="login" name="login">
-					</div>
-					<div class="row">
-						<label for="mail">Email :</label>
-						<input type="email" class="form-control" id="mail" name="mail">	
-					</div>
-					<div class="row">
-						<input type="submit" class="btn btn-success" value="valider">
-					</div>
-				</div>
-			</div>
-		</form>
+<form method="post" action="<c:url value = "/NewMessage?idDiscussion=${ messages[0].idDiscussion }"/>">
+            <div class="card border-primary">
+                <div class="card-header text-white bg-primary mb-3">Ajouter un nouveau message</div>
+                  <div class="card-body">
+                      <div class="row">
+                          <label for="message">Message :</label>
+                        <textarea class="form-control" required rows="5" id="message" name="message"></textarea>
+                    </div>
+                    <div class="row">
+                        <label for="login">Login :</label>
+                        <input type="text" required class="form-control" id="login" name="login">
+                    </div>
+                    <div class="row">
+                        <label for="mail">Email :</label>
+                        <input type="email" required class="form-control" id="mail" name="mail">
+                    </div>
+                    <div class="row">
+                        <input type="submit" class="btn btn-success" value="valider">
+                    </div>
+                </div>
+            </div>
+        </form>
 	</c:if>
 </body>
 </html>

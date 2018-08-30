@@ -21,17 +21,7 @@ public class Dal {
 	public static Connection seConnecter() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			//Properties prop = new Properties();
-			//InputStream input = new FileInputStream("/Properties/config.properties");
-
-			// load a properties file
-			//prop.load(input);
-
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:8889/?databaseName=bddforum&user=root&password=azerty/123&useLegacyDatetimeCode=false&serverTimezone=UTC");
-			//Connection con = DriverManager.getConnection("jdbc:mysql://" + prop.getProperty("servername")
-			//		+ "?databaseName=" + prop.getProperty("databaseName") + "&user=" + prop.getProperty("user")
-			//		+ "&password=" + prop.getProperty("password") + "&useLegacyDatetimeCode=false&serverTimezone=UTC");
-			
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/?databaseName=bddforum&user=theo&password=theo&useLegacyDatetimeCode=false&serverTimezone=UTC");
 			return con;
 		} catch (Exception e) {
 			System.out.println(e);

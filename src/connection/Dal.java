@@ -140,8 +140,8 @@ public class Dal {
 			con = seConnecter();
 		}
 		try {
-			PreparedStatement psP = con.prepareStatement("insert into bddforum.message ('texte', 'date', 'idDiscussion') "
-					+ "values (" + texte + ", " + date + ", " + idDiscussion + ")");
+			PreparedStatement psP = con.prepareStatement("insert into bddforum.message (texte, date, idUtilisateur, idDiscussion) "
+					+ "values ('" + texte + "', CURRENT_DATE, '" + auteur.id + "', '" + idDiscussion + "');");
 			psP.executeUpdate();
 			return getMessage(idDiscussion);
 		} catch (SQLException e) {
@@ -154,12 +154,15 @@ public class Dal {
 			con = seConnecter();
 		}
 		try {
-			PreparedStatement psP = con.prepareStatement("insert into bddforum.message ('login', 'mail') "
-					+ "values (" + login + ", " + mail + ")", Statement.RETURN_GENERATED_KEYS);
-			Integer id = psP.getGeneratedKeys().getInt(1);
-
-			return getUtilisateur(id);
-			
+			PreparedStatement psP = con.prepareStatement("insert into bddforum.utilisateur (login, mail) "
+					+ "values ('" + login + "', '" + mail + "');", Statement.RETURN_GENERATED_KEYS);
+			psP.executeUpdate();
+			ResultSet rs = psP.getGeneratedKeys();
+			if (rs.next()) {
+				int newId = rs.getInt(1);
+				return getUtilisateur(newId);
+			}
+			return null;
 		} catch (SQLException e) {
 			 return null;
 		}

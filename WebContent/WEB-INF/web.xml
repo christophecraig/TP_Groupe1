@@ -34,4 +34,13 @@
 	  	<servlet-name>Sujet</servlet-name>
 	  	<url-pattern>/Sujet</url-pattern>
   	</servlet-mapping>
+
+  	<servlet>
+  		<servlet-name>NewMessage</servlet-name>
+  		<servlet-class>servlets.NewMessage</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+	  	<servlet-name>NewMessage</servlet-name>
+	  	<url-pattern>/NewMessage</url-pattern>
+  	</servlet-mapping>
 </web-app>

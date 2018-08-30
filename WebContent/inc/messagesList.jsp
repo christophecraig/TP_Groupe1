@@ -4,7 +4,7 @@
 			<li class="list-group-item">
 			<div class="row">
 				<div class="col-2 auteur card">
-				<h4>Auteur</h4>
+					<h4>Auteur</h4>
 					<p> 
 						<c:out value="${ item.auteur.login }"/>
 					</p> 

@@ -23,7 +23,7 @@ public class Discussion extends HttpServlet {
     public static final String ATT_PARAM_SUJET = "idSujet";
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute(ATT_BEAN, Dal.getDiscussion(Integer.parseInt(request.getParameter(ATT_PARAM_SUJET))));
+        request.setAttribute(ATT_BEAN, Dal.getDiscussions(Integer.parseInt(request.getParameter(ATT_PARAM_SUJET))));
         this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
     }
 }

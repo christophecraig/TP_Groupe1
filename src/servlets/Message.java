@@ -18,7 +18,7 @@ public class Message extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute(ATT_BEAN, Dal.getMessage(Integer.parseInt(request.getParameter(ATT_PARAM_DISCUSSION))));
-		request.setAttribute(ATT_STATUT, true);
+		request.setAttribute(ATT_STATUT, Dal.getDiscussion(Integer.parseInt(request.getParameter(ATT_PARAM_DISCUSSION))).isStatut());
 		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
 	}
 }

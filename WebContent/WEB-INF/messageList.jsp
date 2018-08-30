@@ -4,7 +4,7 @@
 <div><h1><c:out value="${ messages[0].discussion }"/></h1></div>
 
 	<c:import url="/inc/messagesList.jsp" />
-	<c:if test="${statut}">
+	<c:if test="${statut==true}">
 		<br>
 		<form method="post" action="<c:url value = "/NewMessage"/>">
 			<div class="card border-primary">

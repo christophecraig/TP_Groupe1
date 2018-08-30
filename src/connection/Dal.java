@@ -132,7 +132,6 @@ public class Dal {
 			return d;
 		} catch (Exception e) {
 			return d;
-<<<<<<< HEAD
 		}
 	}
 	
@@ -163,8 +162,6 @@ public class Dal {
 			
 		} catch (SQLException e) {
 			 return null;
-=======
->>>>>>> f58c9af25734214d4990c6e1678a0189e4309117
 		}
 	}
 }

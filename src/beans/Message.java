@@ -11,6 +11,7 @@ public class Message {
 	public DateTime date;
 	public Utilisateur auteur;
 	public Integer idSujet;
+	public Integer idDiscussion;
 	public String discussion;
 	
 	public String getTexte() {
@@ -36,17 +37,22 @@ public class Message {
 		return idSujet;
 	}
 	
+	public Integer getIdDiscussion() {
+		return idDiscussion;
+	}
+	
 	public String getDiscussion() {
 		return discussion;
 	}
 
-	public Message(Integer id, String texte, DateTime date, Utilisateur auteur, Integer idSujet, String discussion) {
+	public Message(Integer id, String texte, DateTime date, Utilisateur auteur, Integer idSujet, Integer idDiscussion, String discussion) {
 		super();
 		this.id = id;
 		this.texte = texte;
 		this.date = date;
 		this.auteur = auteur;
 		this.idSujet = idSujet;
+		this.idDiscussion = idDiscussion;
 		this.discussion = discussion;
 	}
 }

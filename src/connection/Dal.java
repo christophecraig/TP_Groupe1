@@ -5,8 +5,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import beans.Discussion;
@@ -21,7 +24,9 @@ public class Dal {
 	public static Connection seConnecter() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/?databaseName=bddforum&user=theo&password=theo&useLegacyDatetimeCode=false&serverTimezone=UTC");
+
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:8889/?databaseName=bddforum&user=root&password=azerty/123&useLegacyDatetimeCode=false&serverTimezone=UTC");
+			
 			return con;
 		} catch (Exception e) {
 			System.out.println(e);
@@ -83,7 +88,7 @@ public class Dal {
 				messages.add(new beans.Message(result.getInt("id"), result.getString("texte"),
 						formatter.parseDateTime(result.getString("date")),
 						getUtilisateur(result.getInt("idUtilisateur")), result.getInt("idSujet"),
-						getDiscussionFromMessage(idDiscussion)));
+						getDiscussion(idDiscussion).getTitre()));
 			}
 			return messages;
 		} catch (SQLException e) {
@@ -91,7 +96,7 @@ public class Dal {
 		}
 	}
 
-	public static List<Discussion> getDiscussion(int id) {
+	public static List<Discussion> getDiscussions(int id) {
 		if (con == null) {
 			con = seConnecter();
 		}
@@ -111,21 +116,52 @@ public class Dal {
 		}
 	}
 	
-	public static String getDiscussionFromMessage(int id) {
+	public static beans.Discussion getDiscussion(int id) {
+		if (con == null) {
+			con = seConnecter();
+		}
+		beans.Discussion d=null;
+		try {
+			
+			PreparedStatement psP = con.prepareStatement("select * from bddforum.discussion where id = " + id);
+			ResultSet result = psP.executeQuery();
+
+			while (result.next()) {
+				d = new Discussion(result.getInt("id"), result.getString("titre"), getUtilisateur(result.getInt("idUtilisateur")), formatter.parseDateTime(result.getString("dateCreate")), result.getBoolean("statut"));
+			}
+			return d;
+		} catch (Exception e) {
+			return d;
+		}
+	}
+	
+	public static List<Message> addMessage(Utilisateur auteur, Integer idDiscussion, String texte, DateTime date) {
 		if (con == null) {
 			con = seConnecter();
 		}
 		try {
-			String discussion = "";
-			PreparedStatement psP = con.prepareStatement("select titre from bddforum.discussion where id = " + id);
-			ResultSet result = psP.executeQuery();
+			PreparedStatement psP = con.prepareStatement("insert into bddforum.message ('texte', 'date', 'idUtilisateur', 'idDiscussion') "
+					+ "values (" + texte + ", " + date + ", " + auteur.id + ", " + idDiscussion + ")");
+			psP.executeUpdate();
+			return getMessage(idDiscussion);
+		} catch (SQLException e) {
+			return null;
+		}
+	}
+	
+	public static Utilisateur addUtilisateur(String login, String mail, String nom, String prenom) {
+		if (con == null) {
+			con = seConnecter();
+		}
+		try {
+			PreparedStatement psP = con.prepareStatement("insert into bddforum.message ('login', 'nom', 'prenom', 'mail') "
+					+ "values (" + login + ", " + nom + ", " + prenom + ", " + mail + ")", Statement.RETURN_GENERATED_KEYS);
+			Integer id = psP.getGeneratedKeys().getInt(1);
 
-			while (result.next()) {
-				discussion = result.getString("titre");
-			}
-			return discussion;
-		} catch (Exception e) {
-			return "";
+			return getUtilisateur(id);
+			
+		} catch (SQLException e) {
+			 return null;
 		}
 	}
 }

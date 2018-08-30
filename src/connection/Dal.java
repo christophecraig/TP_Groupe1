@@ -83,7 +83,7 @@ public class Dal {
 				messages.add(new beans.Message(result.getInt("id"), result.getString("texte"),
 						formatter.parseDateTime(result.getString("date")),
 						getUtilisateur(result.getInt("idUtilisateur")), result.getInt("idSujet"),
-						getDiscussionFromMessage(idDiscussion)));
+						getDiscussion(idDiscussion).getTitre()));
 			}
 			return messages;
 		} catch (SQLException e) {
@@ -91,7 +91,7 @@ public class Dal {
 		}
 	}
 
-	public static List<Discussion> getDiscussion(int id) {
+	public static List<Discussion> getDiscussions(int id) {
 		if (con == null) {
 			con = seConnecter();
 		}
@@ -111,21 +111,22 @@ public class Dal {
 		}
 	}
 	
-	public static String getDiscussionFromMessage(int id) {
+	public static beans.Discussion getDiscussion(int id) {
 		if (con == null) {
 			con = seConnecter();
 		}
+		beans.Discussion d=null;
 		try {
-			String discussion = "";
-			PreparedStatement psP = con.prepareStatement("select titre from bddforum.discussion where id = " + id);
+			
+			PreparedStatement psP = con.prepareStatement("select * from bddforum.discussion where id = " + id);
 			ResultSet result = psP.executeQuery();
 
 			while (result.next()) {
-				discussion = result.getString("titre");
+				d = new Discussion(result.getInt("id"), result.getString("titre"), getUtilisateur(result.getInt("idUtilisateur")), formatter.parseDateTime(result.getString("dateCreate")), result.getBoolean("statut"));
 			}
-			return discussion;
+			return d;
 		} catch (Exception e) {
-			return "";
+			return d;
 		}
 	}
 }

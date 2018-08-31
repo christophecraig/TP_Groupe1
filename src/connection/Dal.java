@@ -20,11 +20,11 @@ import beans.Utilisateur;
 public class Dal {
 	public static Connection con = null;
 	public static org.joda.time.format.DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+	public static final String DB = "bddforum";
 
 	public static Connection seConnecter() {
 		String URL = "localhost";
 		String PORT = "8889";
-		String DB = "bddforum";
 		String USER = "root";
 		String PASSWORD = "azerty/123";
 		try {
@@ -44,7 +44,7 @@ public class Dal {
 			con = seConnecter();
 		}
 		try {
-			PreparedStatement psP = con.prepareStatement("SELECT * FROM bddforum.utilisateur where id=?;");
+			PreparedStatement psP = con.prepareStatement("SELECT * FROM " + DB + ".utilisateur where id=?;");
 			psP.setInt(1, idUser);
 			ResultSet result = psP.executeQuery();
 			if (result.next()) {
@@ -64,7 +64,7 @@ public class Dal {
 		}
 		try {
 			List<beans.Sujet> sujets = new ArrayList<beans.Sujet>();
-			PreparedStatement psP = con.prepareStatement("select * from bddforum.sujet");
+			PreparedStatement psP = con.prepareStatement("select * from " + DB + ".sujet");
 			ResultSet result = psP.executeQuery();
 
 			while (result.next()) {
@@ -83,9 +83,9 @@ public class Dal {
 		}
 		try {
 			List<beans.Message> messages = new ArrayList<beans.Message>();
-			PreparedStatement psP = con.prepareStatement("select bddforum.message.*, bddforum.discussion.idSujet "
-					+ "from bddforum.message inner join bddforum.discussion "
-					+ "on bddforum.discussion.id = bddforum.message.idDiscussion where bddforum.message.idDiscussion = ? ");
+			PreparedStatement psP = con.prepareStatement("select " + DB + ".message.*, " + DB + ".discussion.idSujet "
+					+ "from " + DB + ".message inner join " + DB + ".discussion "
+					+ "on " + DB + ".discussion.id = " + DB + ".message.idDiscussion where " + DB + ".message.idDiscussion = ? ");
 			psP.setInt(1, idDiscussion);
 			ResultSet result = psP.executeQuery();
 
@@ -107,7 +107,7 @@ public class Dal {
 		}
 		try {
 			List<beans.Discussion> discussions = new ArrayList<beans.Discussion>();
-			PreparedStatement psP = con.prepareStatement("select * from bddforum.discussion where idSujet = " + id);
+			PreparedStatement psP = con.prepareStatement("select * from " + DB + ".discussion where idSujet = " + id);
 			ResultSet result = psP.executeQuery();
 
 			while (result.next()) {
@@ -128,7 +128,7 @@ public class Dal {
 		beans.Discussion d=null;
 		try {
 			
-			PreparedStatement psP = con.prepareStatement("select * from bddforum.discussion where id = " + id);
+			PreparedStatement psP = con.prepareStatement("select * from " + DB + ".discussion where id = " + id);
 			ResultSet result = psP.executeQuery();
 
 			while (result.next()) {
@@ -145,7 +145,7 @@ public class Dal {
 			con = seConnecter();
 		}
 		try {
-			PreparedStatement psP = con.prepareStatement("insert into bddforum.message (texte, date, idUtilisateur, idDiscussion) "
+			PreparedStatement psP = con.prepareStatement("insert into " + DB + ".message (texte, date, idUtilisateur, idDiscussion) "
 					+ "values ('" + texte + "', CURRENT_DATE, '" + auteur.id + "', '" + idDiscussion + "');");
 			psP.executeUpdate();
 			return getMessage(idDiscussion);
@@ -159,7 +159,7 @@ public class Dal {
 			con = seConnecter();
 		}
 		try {
-			PreparedStatement psP = con.prepareStatement("insert into bddforum.utilisateur (login, mail) "
+			PreparedStatement psP = con.prepareStatement("insert into " + DB + ".utilisateur (login, mail) "
 					+ "values ('" + login + "', '" + mail + "');", Statement.RETURN_GENERATED_KEYS);
 			psP.executeUpdate();
 			ResultSet rs = psP.getGeneratedKeys();

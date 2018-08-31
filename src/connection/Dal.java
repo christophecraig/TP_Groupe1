@@ -22,10 +22,15 @@ public class Dal {
 	public static org.joda.time.format.DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
 
 	public static Connection seConnecter() {
+		String URL = "localhost";
+		String PORT = "8889";
+		String DB = "bddforum";
+		String USER = "root";
+		String PASSWORD = "azerty/123";
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:8889/?databaseName=bddforum&user=root&password=azerty/123&useLegacyDatetimeCode=false&serverTimezone=UTC");
+			Connection con = DriverManager.getConnection("jdbc:mysql://" + URL + ":" + PORT + "/?databaseName=" + DB + "&user=" + USER + "&password=" + PASSWORD + "&useLegacyDatetimeCode=false&serverTimezone=UTC");
 			
 			return con;
 		} catch (Exception e) {
